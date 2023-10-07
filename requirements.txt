@@ -1,0 +1,7 @@
+git+https://github.com/elliottzheng/face-detection.git@master
+streamlit
+torch
+torchvision
+numpy
+opencv-python
+opencv-contrib-python
