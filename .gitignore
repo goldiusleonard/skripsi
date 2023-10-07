@@ -1,0 +1,29 @@
+# directories
+/evaluator/weights
+/ray_results
+/fas_simple_distill/webdataset_with_fd_subject
+/embedding_data
+/.vscode
+/eval_result
+
+# dataset
+/casia_mfsd
+/oulu_npu
+/msu_mfsd
+/replay_attack
+/seaborn_data
+/evaluator/t-sne/casia_mfsd
+/evaluator/t-sne/oulu_npu
+/evaluator/t-sne/msu_mfsd
+/evaluator/t-sne/replay_attack
+/webdataset_with_fd_subject_attack_type
+
+# files
+*.tar
+*.png
+*.jpg
+*.pth
+*.pt
+
+# pycache
+*__pycache__*

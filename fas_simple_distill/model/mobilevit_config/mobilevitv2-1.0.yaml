@@ -1,0 +1,20 @@
+model:
+  classification:
+    name: "mobilevit_v2"
+    mitv2:
+      width_multiplier: 1.0
+      attn_norm_layer: "layer_norm_2d"
+    activation:
+      name: "swish"
+    pretrained: "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/weights/mobilevitv2-1.0.pt"
+  normalization:
+    name: "batch_norm"
+    momentum: 0.1
+  activation:
+    name: "swish"
+  layer:
+    global_pool: "mean"
+    conv_init: "kaiming_normal"
+    conv_init_std_dev: 0.02
+    linear_init: "trunc_normal"
+    linear_init_std_dev: 0.02

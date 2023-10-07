@@ -1,0 +1,148 @@
+amp:
+  enabled: true
+use_cpu: false
+benchmark: false
+data_parallel: false
+deterministic: true
+log_every_n_step: 10
+num_workers: 4
+mlflow_tracking_username: verihubs-vision
+mlflow_tracking_password: Zjg3NDIwZTM1ZjdmNTU3NWJjMWM4Mjk5
+mlflow_tracking_uri: http://127.0.0.1:5000/
+mlflow_experiment_name: skripsi-4
+mlflow_tags:
+  developer: goldius
+  repoName: fas-simple-distill
+  Backup_Artifacts: true
+
+hparams:
+  seed: 666
+  iter_per_epoch: 10
+  max_iter: 4000
+  max_epoch: 400
+  num_live_domains: 3
+  model:
+    type: fas_simple_distill.model.resnet_ssdg.ssdg_resnet_baseline.DG_model
+    model: resnet18
+    embedding_size: 512
+    drop_rate: 0.5
+    pretrained_path: "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/weights/resnet18-5c106cde.pth"
+    norm_flag: true
+    detach_classifier: false
+  discriminator:
+    type: fas_simple_distill.model.resnet_ssdg.ssdg_resnet_baseline.Discriminator
+    num_classes: 3
+    max_iter: 4000
+    in_features: 512
+  criterion_cls:
+    type: torch.nn.CrossEntropyLoss
+    label_smoothing: 0.0
+  criterion_dom:
+    type: torch.nn.CrossEntropyLoss
+    label_smoothing: 0.0
+  optimizer:
+    type: torch.optim.SGD
+    lr: 0.01
+    weight_decay: 5e-4
+    momentum: 0.9
+  init_lr: 0.01
+  lr_epoch_1: 0
+  lr_epoch_2: 400
+  HardTripletLoss:
+    type: fas_simple_distill.ops.ssdg.HardTripletLoss
+    margin: 0.1
+    hardest: false
+  batch_size: 60
+  lambda_cls: 1.0
+  lambda_metric: 1.0
+  lambda_adloss: 0.5
+  metric_loss:
+    loss_type: HardTripletLoss
+
+dataset:
+  train_dataset:
+    disable_blank_mitigation: true
+    align_config:
+      scale: 1.0
+      crop_size: 256 
+      select_method: AREA
+      no_face_handling: skip
+    use_custom_domain_label: True
+    urls:
+      - dom_lbl: 0
+        name: "msu_mfsd_live"
+        url: [
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/msu_mfsd/train/live/msu_mfsd-train-live-{0000..0002}.tar",
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/msu_mfsd/test/live/msu_mfsd-test-live-{0000..0003}.tar",
+        ]
+      - dom_lbl: 1
+        name: "msu_mfsd_spoof"
+        url: [
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/msu_mfsd/train/spoof/msu_mfsd-train-spoof-{0000..0008}.tar",
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/msu_mfsd/test/spoof/msu_mfsd-test-spoof-{0000..0011}.tar",
+        ]
+
+      - dom_lbl: -1
+        name: "casia_mfsd_train_live"
+        url: [
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/casia_mfsd/train/live/casia_mfsd-train-live-{0000..0005}.tar",
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/casia_mfsd/test/live/casia_mfsd-test-live-{0000..0008}.tar",
+        ]
+      - dom_lbl: 2
+        name: "casia_mfsd_train_spoof"
+        url: [
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/casia_mfsd/train/spoof/casia_mfsd-train-spoof-{0000..0017}.tar",
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/casia_mfsd/test/spoof/casia_mfsd-test-spoof-{0000..0026}.tar",
+        ]
+
+      - dom_lbl: -2
+        name: "oulu_npu_train_live"
+        url: [
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/oulu_npu/train/live/oulu_npu-train-live-{0000..0035}.tar",
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/oulu_npu/dev/live/oulu_npu-dev-live-{0000..0026}.tar",
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/oulu_npu/test/live/oulu_npu-test-live-{0000..0035}.tar",
+        ]
+      - dom_lbl: 3
+        name: "oulu_npu_train_spoof"
+        url: [
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/oulu_npu/train/spoof/oulu_npu-train-spoof-{0000..0143}.tar",
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/oulu_npu/dev/spoof/oulu_npu-dev-spoof-{0000..0107}.tar",
+          "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/1_frame/oulu_npu/test/spoof/oulu_npu-test-spoof-{0000..0143}.tar",
+        ]
+
+  val_dataset:
+    disable_blank_mitigation: true
+    align_config:
+      scale: 1.0
+      crop_size: 256
+      select_method: AREA
+      no_face_handling: skip
+    urls:
+      - name: "replay_attack_test"
+        size: 980
+        url: [
+        "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/2_frame/replay_attack/train/live/replay_attack-train-live-{0000..0011}.tar",
+        "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/2_frame/replay_attack/train/spoof/replay_attack-train-spoof-{0000..0029}.tar",
+        "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/2_frame/replay_attack/test/live/replay_attack-test-live-{0000..0015}.tar",
+        "F:/skripsi/FAS-Skripsi-4/fas_simple_distill/webdataset_with_fd_subject/2_frame/replay_attack/test/spoof/replay_attack-test-spoof-{0000..0039}.tar",
+        ]
+        
+  train_aug:
+    transforms:
+      - type: torchvision.transforms.RandomHorizontalFlip
+        p: 0.5
+      - type: torchvision.transforms.ToTensor
+      - type: torchvision.transforms.Normalize
+        # mean: [0.485, 0.456, 0.406]
+        # std: [0.229, 0.224, 0.225]
+        mean: [0.5, 0.5, 0.5]
+        std: [0.5, 0.5, 0.5]
+
+  val_aug:
+    transforms:
+      - type: torchvision.transforms.ToTensor
+      - type: torchvision.transforms.Normalize
+        # mean: [0.485, 0.456, 0.406]
+        # std: [0.229, 0.224, 0.225]
+        mean: [0.5, 0.5, 0.5]
+        std: [0.5, 0.5, 0.5]
